@@ -1,0 +1,13 @@
+<table>
+    {% if isDebug %}
+    <pre>Width: {{ width }}</pre>
+    <pre>Length: {{ length }}</pre>
+    {% endif %}
+    {% for i in range(1, width) %}
+    <tr>
+        {% for j in range(1, length) %}
+        <td></td>
+        {% endfor %}    
+    </tr>
+    {% endfor %}
+</table>
