@@ -26,7 +26,7 @@ $simulation->run();
     <div class="application">
         <div class="instructions">
             <p class="title">Welcome to the bike simulator 3000.</p>
-            <span>In order to successfully simulate the excitement and fun of a bike, please input your commands starting with a 
+            <span>In order to successfully simulate the excitement and fun of a bike, please input your commands starting with
                 <pre><?php echo htmlentities($simulation->getInitialCommand()); ?></pre>
             </span>
                  <?php /**
@@ -35,24 +35,22 @@ $simulation->run();
                  */ ?>
         </div>
         <div class="board">
-        <?php echo $simulation->renderBoard(); ?>
-        </div>        
-        <div class="toolbar">
             <div class="input">
                 <!-- <h3>Inputs</h3> -->
                 <form action="navigate.php">
                     <input type="hidden" name="security" value="ARBITRARY" />
                     <label class="title" for="commands">Enter your commands here</label><br>
-                    <textarea name="commands"><?php echo $simulation->getInitialCommand(); ?></textarea>
+                    <textarea name="commands" autofocus="true" rows="5"><?php echo $simulation->getInitialCommand(); ?></textarea>
                     <span class="help_commands"><?php echo $simulation->getCommandHelp(); ?></span>
                     <input type="submit">RUN</input>
                 </form>
             </div>
-            <div class="output">
-                <!-- <h3>Output</h3> -->
-                <span class="output">Please enter your commands to see the GPS Output</span>
-            </div>
+            <?php echo $simulation->renderBoard(); ?>
+            <div class="output-box">
+            <!-- <h3>Output</h3> -->
+            <span class="output">Please enter your commands to see the GPS Output</span>
         </div>
+        </div>        
     </div>
 </body>
 </html>
