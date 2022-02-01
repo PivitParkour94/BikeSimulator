@@ -9,8 +9,8 @@ use Exception;
  */
 class Simulation {
 
-    // const IS_DEBUGGING = false;
-    const IS_DEBUGGING = true;
+    const IS_DEBUGGING = false;
+    // const IS_DEBUGGING = true;
 
     private $_twig;
     private $_width;
@@ -140,6 +140,13 @@ class Simulation {
             'length' => $this->_length,
             'isDebug' => self::IS_DEBUGGING
         ]);
+    }
+
+    /**
+     * Get Allowed Dimensions for the simulation
+     */
+    public function getSize() {
+        return [$this->_width, $this->_length];
     }
 
     /**

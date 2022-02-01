@@ -7,6 +7,7 @@ require_once 'vendor/autoload.php';
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+ob_clean();
 
 $simulation = new \Nathaniel\BikeSimulator\Simulation(7,7);
 
@@ -48,10 +49,10 @@ $simulation->debug();
                     <input type="submit" value="RUN"></input>
                 </form>
             </div>
+            <h3 class="title">Simulation Grid</h3>
             <?php echo $simulation->renderBoard(); ?>
         </div>
         <div class="output-box">
-            <!-- <h3>Output</h3> -->
             <span class="output"><?php echo $simulation->getOutput(); ?></span>
         </div>        
     </div>

@@ -2,6 +2,8 @@
 
 namespace Nathaniel\BikeSimulator\Command;
 
+use Nathaniel\BikeSimulator\Directions;
+
 /**
  * Command used to place the bike somewhere on the grid
  */
@@ -12,6 +14,7 @@ class PlaceCommand // implements ComamndInterface {
      */
     private $_simulation;
     private $_input;
+    private $_params;
 
     const NAME = 'PLACE';
 
@@ -21,6 +24,7 @@ class PlaceCommand // implements ComamndInterface {
     public function __construct($simulation, $input) {
         $this->_simulation = $simulation;
         $this->_input = $input;
+        $this->_params = [];
     }
 
     /**
@@ -34,20 +38,50 @@ class PlaceCommand // implements ComamndInterface {
      * Get parameters for the function
      */
     public function getParams() {
-        $params = explode(',', $this->_input);
-        $filteredParams = array_filter($params, function ($param) {
-            if ($param == self::NAME) {
-                return false;
-            } 
-        });
-        $this->_params = $filteredParams;
+        if (!$this->_params) {
+            $namelessInputs = str_replace(self::NAME, '', $this->_input);
+            $params = explode(',', $namelessInputs);
+            $params = array_map('trim', $params);
+            $this->_params = $params;
+        }
+        return $this->_params;
     }
 
     /**
      * Validate the command meets simulation requirements
      */
     public function validate() {
-        // TODO: check if position is within the simulation grid
+        if (count($this->getParams()) > 3) {
+            return false;
+            // throw new \Exception('Too many parameters');
+        }
+        [$xCoord, $yCoord, $direction] = $this->getParams();
+        $isValid = true;
+
+        switch ($direction) {
+            case Directions::NORTH:
+            case Directions::EAST:
+            case Directions::SOUTH:
+            case Directions::WEST:
+                break;
+            default:
+                return false;
+        }
+
+        [$width, $length] = $this->_simulation->getSize();
+        if ($xCoord < 0) {
+            return false;
+        }
+        if ($xCoord > $width) {
+            return false;
+        }
+        if ($yCoord < 0) {
+            return false;
+        } 
+        if ($yCoord > $length) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -55,19 +89,21 @@ class PlaceCommand // implements ComamndInterface {
      */
     public function apply(\Nathaniel\BikeSimulator\Bike $bike) {
         $oldPosition = $bike->getPosition();
-        if (!$this->validate()) {
+        try {
+            $this->validate();
+            $this->_simulation->setIsBikePlaced(true);
+            $this->_simulation->addDebug(sprintf(
+                "Moving bike from (%s,%s) to (%s,%s) facing %s",
+                $oldPosition[0],
+                $oldPosition[1],
+                $bike->getPosition()[0],
+                $bike->getPosition()[1],
+                $bike->getDirection()
+                )
+            );
+        } catch (\Exception $e) {
             // handle failed command
         }
-        $this->_simulation->setIsBikePlaced(true);
-        $this->_simulation->addDebug(sprintf(
-            "Moving bike from (%s,%s) to (%s,%s) facing %s",
-            $oldPosition[0],
-            $oldPosition[1],
-            $bike->getPosition()[0],
-            $bike->getPosition()[1],
-            $bike->getDirection()
-            )
-        );
         
     }
 

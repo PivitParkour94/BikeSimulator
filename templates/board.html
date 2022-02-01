@@ -3,11 +3,30 @@
     <pre>Width: {{ width }}</pre>
     <pre>Length: {{ length }}</pre>
     {% endif %}
-    {% for i in range(1, width) %}
-    <tr>
-        {% for j in range(1, length) %}
-        <td></td>
-        {% endfor %}    
+    {% set columnClass = [] %}
+    {% set xClasses = [] %}
+    {% set yClasses = [] %}
+    {% for i in range(0, width) %}
+        {% if i == width %}
+            {% set xClasses = xClasses|merge(['x-axis']) %}
+        {% else %}
+            {% set xClasses = [] %}
+        {% endif %}
+        <tr data-test-i="{{i}}">
+            {% for j in range(0, length) %}
+            {% if j == 0 %}
+                {% set yClasses = yClasses|merge(['y-axis']) %}
+            {% else %}
+                {% set yClasses = [] %}
+            {% endif %}
+
+            {% set columnClass = xClasses | merge(yClasses) %}
+            <td data-test-j="{{j}}" data-y-axis="{{width - i}}" class="{{columnClass|join(' ')}}">
+                {% if isDebug %}
+                {{i}}, {{j}}
+                {% endif %}
+            </td>
+        {% endfor %}
     </tr>
     {% endfor %}
 </table>

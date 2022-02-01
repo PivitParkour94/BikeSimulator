@@ -1,10 +1,10 @@
 :root {
-    --cell-height: 50px;
+    --cell-height: 3em;
 }
 
 body {
-    counter-set: xAxis;
-    counter-set: yAxis;
+    counter-reset: xAxis yAxis;
+    counter-increment: xAxis -1;
 }
 
 .application {
@@ -32,17 +32,6 @@ body {
     padding-bottom: 2em;
 }
 
-table {
-    margin: auto;
-}
-
-td.x-axis::before {
-    content: (xAxis);
-    position: relative;
-    left: calc(-1 * 60%);
-    bottom: calc(-1 * 50%);
-}
-
 .input {
     text-align: center;
     float: left;
@@ -61,20 +50,12 @@ td.x-axis::before {
     border-radius: 1em;
     position: relative;
     top: 10px;
-}}
+}
 
 textarea {
     width: 60%;
     height: max-content;
 }
-
-tr, td {
-    height: var(--cell-height);
-    width: var(--cell-height);
-    border: black 1px solid;
-}
-
-
 
 .output-box {
     text-align: center;
@@ -104,3 +85,40 @@ tr, td {
     float: left;
     color: rgb(255, 52, 52);
 }
+
+/* GRID */
+table {
+    margin: auto;
+    table-layout:fixed;
+}
+
+td {
+    /* display: inline-block; */
+    height: var(--cell-height) !important;
+    width: var(--cell-height) !important;
+    border: black 1px solid;
+}
+
+td.x-axis::before {
+    counter-increment: xAxis;
+    content: counter(xAxis);
+    position: relative;
+    bottom: calc(-1 * 80%);
+}
+
+td.x-end::after {
+    counter-increment: xAxis;
+    content: counter(xAxis);
+    position: relative;
+    /* left: calc(1 * 50%); */
+    bottom: calc(-1 * 80%);
+}
+
+
+td.y-axis::before {
+    content: attr(data-y-axis);
+    position: relative;
+    left: calc(-1 * 75%);
+    /* bottom: calc(-1 * 80%); */
+}
+
