@@ -6,7 +6,13 @@ namespace Nathaniel\BikeSimulator;
 /**
  * Unit test the examples provided
  */
-class TestExamples extends \PHPUnit\Framework\TestCase {
+class ExamplesTest extends \PHPUnit\Framework\TestCase {
+
+    private $simulation;
+
+    protected function setUp(): void {
+        $this->simulation = new \Nathaniel\BikeSimulator\Simulation(7,7);
+    }
 
     /**
      * Test example one
@@ -18,8 +24,7 @@ class TestExamples extends \PHPUnit\Framework\TestCase {
             'GPS_REPORT'
         ];
         $output = '(0,6), NORTH';
-        $this->assertEquals($output, $this->simulation->simulate($inputs), "Failed first example");
-
+        $this->assertEquals($output, $this->simulation->run($inputs), "Failed first example");
     }
 
 }

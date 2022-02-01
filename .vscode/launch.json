@@ -22,6 +22,34 @@
                 "uriFormat": "http://localhost:%s",
                 "action": "openExternally"
             }
-        }
+        },
+        {
+            "name": "PHPUnit",
+            "type": "php",
+            "request": "launch",
+            "runtimeArgs": [
+                "/usr/bin/phpunit",
+                "${file}",
+                "--colors=always",
+                "--configuration phpunit.xml",
+    ],
+            "program": "",
+            "cwd": "${workspaceRoot}"
+        },
+        // {
+        //     "name": "Debug PHPUnit *BROKEN*",
+        //     "type": "php",
+        //     "request": "launch",
+        //     "runtimeArgs": [
+        //         "-dxdebug.mode=debug",
+        //         "-dxdebug.start_with_request=yes",
+        //         "${file}",
+        //         "--configuration phpunit.xml",
+        //         "--colors=always",
+        //     ],
+        //     "program": "/usr/bin/phpunit",
+        //     "cwd": "${workspaceRoot}",
+        //     "log": true
+        // }
     ]
 }

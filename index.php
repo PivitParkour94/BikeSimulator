@@ -10,7 +10,10 @@ ini_set('display_errors', 1);
 
 $simulation = new \Nathaniel\BikeSimulator\Simulation(7,7);
 
-$simulation->run();
+$inputs = isset($_GET['commands']) ? (array)$_GET['commands'] : [];
+
+$simulation->run($inputs);
+$simulation->debug();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,7 +30,7 @@ $simulation->run();
         <div class="instructions">
             <p class="title">Welcome to the bike simulator 3000.</p>
             <span>In order to successfully simulate the excitement and fun of a bike, please input your commands starting with
-                <pre><?php echo htmlentities($simulation->getInitialCommand()); ?></pre>
+                <pre class="command"><?php echo htmlentities($simulation->getInitialCommand()); ?></pre>
             </span>
                  <?php /**
                   * may have time to add click to start
@@ -37,19 +40,19 @@ $simulation->run();
         <div class="board">
             <div class="input">
                 <!-- <h3>Inputs</h3> -->
-                <form action="navigate.php">
+                <form action="/">
                     <input type="hidden" name="security" value="ARBITRARY" />
                     <label class="title" for="commands">Enter your commands here</label><br>
-                    <textarea name="commands" autofocus="true" rows="5"><?php echo $simulation->getInitialCommand(); ?></textarea>
+                    <textarea name="commands" autofocus="true" rows="5"><?php echo $simulation->outputCommand(); ?></textarea>
                     <span class="help_commands"><?php echo $simulation->getCommandHelp(); ?></span>
-                    <input type="submit">RUN</input>
+                    <input type="submit" value="RUN"></input>
                 </form>
             </div>
             <?php echo $simulation->renderBoard(); ?>
-            <div class="output-box">
-            <!-- <h3>Output</h3> -->
-            <span class="output">Please enter your commands to see the GPS Output</span>
         </div>
+        <div class="output-box">
+            <!-- <h3>Output</h3> -->
+            <span class="output"><?php echo $simulation->getOutput(); ?></span>
         </div>        
     </div>
 </body>
