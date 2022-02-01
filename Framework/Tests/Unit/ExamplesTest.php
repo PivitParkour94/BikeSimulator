@@ -18,6 +18,7 @@ class ExamplesTest extends \PHPUnit\Framework\TestCase {
      * Test example one
      */
     public function testExampleOne() {
+        $this->markTestIncomplete('Need to build in forward and GPS report commands');
         $inputs = [
             'PLACE 0,5,NORTH',
             'FORWARD',

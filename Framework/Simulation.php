@@ -9,8 +9,8 @@ use Exception;
  */
 class Simulation {
 
-    const IS_DEBUGGING = false;
-    // const IS_DEBUGGING = true;
+    // const IS_DEBUGGING = false;
+    const IS_DEBUGGING = true;
 
     private $_twig;
     private $_width;
@@ -32,6 +32,13 @@ class Simulation {
         $this->_isBikePlaced = false;
         $this->_inputs = [];
         $this->_output = [];
+    }
+
+    /**
+     * Check if the bike is placed
+     */
+    public function getIsBikePlaced() {
+        return $this->_isBikePlaced;
     }
 
     /**
@@ -65,6 +72,7 @@ class Simulation {
             if (!$this->_isBikePlaced) {
                 if (!$command instanceof \Nathaniel\BikeSimulator\Command\PlaceCommand) {
                     // The application should discard all commands until a valid PLACE command has been executed.
+                    $this->addError("Please ensure you have called the PLACE command");
                     continue;
                 }
             }
@@ -83,12 +91,17 @@ class Simulation {
     }
 
     /**
-     * 
+     * Get command from the input
      */
     private function getCommandFromInput($input) {
         $this->addDebug("Generate command from input: ". $input);
-        [$inputName, $params] = explode(' ', $input);
-        $commandClass = '\\Nathaniel\\BikeSimulator\\Command\\' . ucwords(strtolower($inputName)) . 'Command';
+        $inputName = explode(' ', $input)[0];
+        $parts = explode('_', $inputName);
+        $commandClassName = '';
+        foreach ($parts as $part) {
+            $commandClassName .= ucwords(strtolower($part));
+        }
+        $commandClass = '\\Nathaniel\\BikeSimulator\\Command\\' . $commandClassName . 'Command';
         if (!class_exists($commandClass)) {
             throw new Exception("No command defined with name: " . $inputName);
         }
@@ -100,13 +113,18 @@ class Simulation {
      * Process inputs for the simulation
      */
     private function processInputs($input) {
+        $comamnds = [];
         if (is_string($input)) {
-            $input = explode(PHP_EOL, $input);
+            $commands = explode(PHP_EOL, $input);
         }
-        if (!$input) {
-            $input = [];
+        $inputs = [];
+        foreach ($commands as $command) {
+            if (ctype_space($command)) {
+                continue;
+            }
+            $inputs[] = trim($command);
         }
-        $this->_inputs = $input;
+        $this->_inputs = $commands;
     }
 
     /**
@@ -201,6 +219,19 @@ class Simulation {
         $this->_output[$style][] = htmlentities($output);
     }
 
+    public function getDebugMessages() {
+        $output = '';
+        foreach ($this->_output as $style => $messages) {
+            if (!self::IS_DEBUGGING) {
+                break;
+            }
+            foreach ($messages as $message) {
+                $output .= trim(htmlentities($message)) . PHP_EOL;
+            }
+        }
+        return $output;
+    }
+
     public function getOutput() {
         $output = '';
         foreach ($this->_output as $style => $messages) {
@@ -220,15 +251,7 @@ class Simulation {
                     $output .= '</pre>';
                     break;
                 case 'debug': 
-                    if (!self::IS_DEBUGGING) {
-                        break;
-                    }
-                    $output .= '<pre class="output-debug">';
-                    $output .= '<p>Debugging</p>';
-                    foreach ($messages as $message) {
-                        $output .= trim(htmlentities($message)) . PHP_EOL;
-                    }
-                    $output .= '</pre>';
+                    // ignore debug messages in output
                     break;
                 default:
                     $output .= implode(PHP_EOL, $messages) . PHP_EOL;

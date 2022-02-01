@@ -2,6 +2,9 @@
 
 namespace Nathaniel\BikeSimulator\Command;
 
+/**
+ * TODO: Issue reading interface
+ */
 interface ComamndInterface {
 
     /**

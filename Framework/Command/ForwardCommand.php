@@ -7,16 +7,21 @@ use Nathaniel\BikeSimulator\Directions;
 /**
  * Command used to place the bike somewhere on the grid
  */
-class PlaceCommand // implements ComamndInterface {
-{
+class ForwardCommand { // implements ComamndInterface {
+
     /**
      * @var \Nathaniel\BikeSimulator\Simulation
      */
     private $_simulation;
     private $_input;
     private $_params;
+    
+    /**
+     * @var \Nathaniel\BikeSimulator\Bike 
+     */
+    public $_bike;
 
-    const NAME = 'PLACE';
+    const NAME = 'FORWARD';
 
     /**
      * Setup command with unvalidated input
@@ -31,7 +36,7 @@ class PlaceCommand // implements ComamndInterface {
      * Get description for the command
      */
     public function getDescription() {
-        return 'PLACE <X>, <Y>, <Facing-Direction> - to place your bike somewhere on the grid';
+        return 'FORWARD - Move the bike one block in the direction it is facing';
     }
 
     /**
@@ -45,6 +50,7 @@ class PlaceCommand // implements ComamndInterface {
                 return $this->_params;
             }
             $params = explode(',', $namelessInputs);
+            die(var_dump($params));
             $params = array_map('trim', $params);
             $this->_params = $params;
         }
@@ -55,36 +61,11 @@ class PlaceCommand // implements ComamndInterface {
      * Validate the command meets simulation requirements
      */
     public function validate() {
-        if (count($this->getParams()) > 3) {
+        if (count($this->getParams()) > 0) {
             return false;
             // throw new \Exception('Too many parameters');
         }
-        [$xCoord, $yCoord, $direction] = $this->getParams();
-        $isValid = true;
 
-        switch ($direction) {
-            case Directions::NORTH:
-            case Directions::EAST:
-            case Directions::SOUTH:
-            case Directions::WEST:
-                break;
-            default:
-                return false;
-        }
-
-        [$width, $length] = $this->_simulation->getSize();
-        if ($xCoord < 0) {
-            return false;
-        }
-        if ($xCoord > $width) {
-            return false;
-        }
-        if ($yCoord < 0) {
-            return false;
-        } 
-        if ($yCoord > $length) {
-            return false;
-        }
         return true;
     }
 
@@ -92,6 +73,7 @@ class PlaceCommand // implements ComamndInterface {
      * Move the bike on the simulation
      */
     public function apply(\Nathaniel\BikeSimulator\Bike $bike) {
+        $this->_bike = $bike;
         $oldPosition = $bike->getPosition();
         try {
             $this->validate();

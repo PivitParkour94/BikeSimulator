@@ -11,7 +11,7 @@ ob_clean();
 
 $simulation = new \Nathaniel\BikeSimulator\Simulation(7,7);
 
-$inputs = isset($_GET['commands']) ? (array)$_GET['commands'] : [];
+$inputs = isset($_GET['commands']) ? $_GET['commands'] : [];
 
 $simulation->run($inputs);
 $simulation->debug();
@@ -23,7 +23,6 @@ $simulation->debug();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nathaniel - Bike Simulator</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
@@ -48,6 +47,10 @@ $simulation->debug();
                     <span class="help_commands"><?php echo $simulation->getCommandHelp(); ?></span>
                     <input type="submit" value="RUN"></input>
                 </form>
+                <pre class="output-debug">
+                    <p>Debugging</p>
+                    <?php echo $simulation->getDebugMessages(); ?>
+                </pre>
             </div>
             <h3 class="title">Simulation Grid</h3>
             <?php echo $simulation->renderBoard(); ?>

@@ -11,3 +11,4 @@ A breakdown of the design choices made to build this simulator.
 9. Restricted the Direction directly in the Bike class and if an invalid direction is given, set a fallback of NORTH
 10. Decided against a reset button, as PHP application renders from the page reload (no persistent data)
 11. Simulation has is bike placed as a public method so that the place command can update the state, which allows for all commands to be ignored until a place bike command
+12. Had issue with new line characters being stripped when submitting the commands. Had to modify the new line characters so that the example input could work properly

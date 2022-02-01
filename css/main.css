@@ -13,6 +13,7 @@ body {
 }
 
 .title {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-align: center;
     padding-top: 1em;
     font-size: larger;
@@ -76,9 +77,9 @@ textarea {
 }
 
 .output-debug {
-    float: right;
+    float: left;
     text-align: left;
-    font-size: 0.5em;
+    /* font-size: 0.5em; */
 }
 
 .output-log-error {
@@ -89,28 +90,27 @@ textarea {
 /* GRID */
 table {
     margin: auto;
-    table-layout:fixed;
+    padding: 0px;
+    border-collapse: collapse;
+    /* table-layout:fixed; */
 }
 
 td {
-    /* display: inline-block; */
+    text-align: center;
+    padding: 0; 
+    margin: 0;
+        /* display: inline-block; */
     height: var(--cell-height) !important;
     width: var(--cell-height) !important;
     border: black 1px solid;
+    padding: 0px;
 }
 
 td.x-axis::before {
     counter-increment: xAxis;
     content: counter(xAxis);
     position: relative;
-    bottom: calc(-1 * 80%);
-}
-
-td.x-end::after {
-    counter-increment: xAxis;
-    content: counter(xAxis);
-    position: relative;
-    /* left: calc(1 * 50%); */
+    left: calc(1 * 35%);
     bottom: calc(-1 * 80%);
 }
 
