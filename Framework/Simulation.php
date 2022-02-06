@@ -304,7 +304,13 @@ class Simulation {
         $bikePlacedString = ($this->_isBikePlaced) ? 'true' : 'false';
         $this->addDebug('Is Bike Placed: ' . $bikePlacedString, 'debug');
     }
-
+   
+    /**
+     * Get simulation messages
+     */
+    public function getSimulationMessages() {
+        return $this->_output['simulate'];
+    }
    
     public function addSimulationMessage($message) {
         $this->addOutput($message, 'simulate');

@@ -19,7 +19,7 @@ order) including another PLACE command.
 - TURN_LEFT and TURN_RIGHT will rotate the bike in the specified direction without
 changing its position on the grid.
 - GPS_REPORT will output the bike's position and facing in the following format:
-(`<X>`, `<Y>`), `<Facing-direction>`
+(`<X>`,`<Y>`), `<Facing-direction>`
 The bike must not exit the grid during movement. This includes the PLACE command.
 Any move that would cause the bike to leave the grid must be ignored.
 Input for the bike must be provided by the user.

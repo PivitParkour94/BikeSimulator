@@ -1,13 +1,12 @@
 <?php
 
 namespace Nathaniel\BikeSimulator\Command;
-
 use Nathaniel\BikeSimulator\Directions;
 
 /**
  * Command used to place the bike somewhere on the grid
  */
-class PlaceCommand // implements ComamndInterface {
+class PlaceCommand //implements \Nathaniel\BikeSimulator\Command\ComamndInterface {
 {
     /**
      * @var \Nathaniel\BikeSimulator\Simulation

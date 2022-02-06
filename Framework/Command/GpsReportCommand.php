@@ -71,7 +71,7 @@ class GpsReportCommand // implements ComamndInterface {
         if (!$this->validate()) {
             throw new \Exception("Failed to run GPS_REPORT");
         }
-        $output = sprintf('(%s, %s), %s', 
+        $output = sprintf('(%s,%s), %s', 
             $this->_simulation->getBikePosition()[0],
             $this->_simulation->getBikePosition()[1],
             $this->_simulation->getBikeDirection(),            
