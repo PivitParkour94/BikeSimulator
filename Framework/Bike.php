@@ -7,37 +7,15 @@ namespace Nathaniel\BikeSimulator;
  */
 class Bike {
 
-    private $_x;
-    private $_y;
     private $_direction;
 
     /**
      * Setup bike
      */
     public function __construct(
-        $initialX = 0, 
-        $initialY = 0, 
         $direction = Directions::NORTH
     ) {
-        $this->_x = $initialX;
-        $this->_y = $initialY;
         $this->_direction = $direction;
-    }
-
-    /**
-     * Get current position of bike
-     */
-    public function getPosition() {
-        return [$this->_x, $this->_y];
-    }
-
-    /**
-     * Set current position of bike
-     */
-    public function setPosition($x, $y) {
-        // restrict x & y coords in the simulation
-        $this->_x = $x;
-        $this->_y = $y;
     }
 
     /**
@@ -63,5 +41,13 @@ class Bike {
         }
     }
 
+    /**
+     * Get bike data
+     */
+    public function getData() {
+        return [
+            'direction' => $this->getDirection()
+        ];
+    }
 
 }

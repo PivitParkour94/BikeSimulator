@@ -12,3 +12,4 @@ A breakdown of the design choices made to build this simulator.
 10. Decided against a reset button, as PHP application renders from the page reload (no persistent data)
 11. Simulation has is bike placed as a public method so that the place command can update the state, which allows for all commands to be ignored until a place bike command
 12. Had issue with new line characters being stripped when submitting the commands. Had to modify the new line characters so that the example input could work properly
+13. Removed bike class as rendering the board was happening before the bike attributes were updated.

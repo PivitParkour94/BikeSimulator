@@ -9,7 +9,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ob_clean();
 
-$simulation = new \Nathaniel\BikeSimulator\Simulation(7,7);
+$isDebugging = false;
+// $isDebugging = true;
+
+$simulation = new \Nathaniel\BikeSimulator\Simulation(7,7, $isDebugging);
 
 $inputs = isset($_GET['commands']) ? $_GET['commands'] : [];
 
@@ -43,12 +46,11 @@ $simulation->debug();
                 <form action="/">
                     <input type="hidden" name="security" value="ARBITRARY" />
                     <label class="title" for="commands">Enter your commands here</label><br>
-                    <textarea name="commands" autofocus="true" rows="5"><?php echo $simulation->outputCommand(); ?></textarea>
+                    <textarea name="commands" autofocus="true" rows="15"><?php echo $simulation->outputCommand(); ?></textarea>
                     <span class="help_commands"><?php echo $simulation->getCommandHelp(); ?></span>
                     <input type="submit" value="RUN"></input>
                 </form>
                 <pre class="output-debug">
-                    <p>Debugging</p>
                     <?php echo $simulation->getDebugMessages(); ?>
                 </pre>
             </div>

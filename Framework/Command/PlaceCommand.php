@@ -91,24 +91,50 @@ class PlaceCommand // implements ComamndInterface {
     /**
      * Move the bike on the simulation
      */
-    public function apply(\Nathaniel\BikeSimulator\Bike $bike) {
-        $oldPosition = $bike->getPosition();
+    public function apply() {
+        // die('Placing bike: ' . json_encode($this->getParams()));
         try {
-            $this->validate();
-            $this->_simulation->setIsBikePlaced(true);
-            $this->_simulation->addDebug(sprintf(
-                "Moving bike from (%s,%s) to (%s,%s) facing %s",
-                $oldPosition[0],
-                $oldPosition[1],
-                $bike->getPosition()[0],
-                $bike->getPosition()[1],
-                $bike->getDirection()
-                )
-            );
+            if (!$this->validate()) {
+                return;
+            };
+            $this->_placeBike();
         } catch (\Exception $e) {
             // handle failed command
+            $this->_simulation->addDebug($e->getMessage());
+            $this->_simulation->addError("Failed to place Bike");
         }
         
+    }
+
+    /**
+     * Place the bike
+     */
+    private function _placeBike() {
+        $oldPosition = $this->_simulation->getBikePosition();
+        if (!$oldPosition) {
+            $oldPosition = [0,0];
+        }
+        $this->_simulation->addDebug(sprintf('Old Position: (%s,%s)', $oldPosition[0], $oldPosition[1]));
+        $this->_simulation->addDebug(sprintf(
+            "Moving bike from (%s,%s) to (%s,%s) facing %s",
+            $oldPosition[0],
+            $oldPosition[1],
+            $this->getParams()[0],
+            $this->getParams()[1],
+            $this->getParams()[2],
+            )
+        );
+        $this->_simulation->setIsBikePlaced(true);
+        $this->_simulation->setBikePosition([$this->getParams()[0],$this->getParams()[1]]);
+        $this->_simulation->setBikeDirection($this->getParams()[2]);
+        $this->_simulation->addDebug(
+            sprintf(
+                'New Bike Position: (%s,%s)', 
+                    $this->_simulation->getBikePosition()[0], 
+                    $this->_simulation->getBikePosition()[1]
+            )
+        );
+
     }
 
 

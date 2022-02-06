@@ -25,6 +25,18 @@
                 {% if isDebug %}
                 {{i}}, {{j}}
                 {% endif %}
+                {#
+                    Render the bike only when the bike is placed
+                 #}
+                {% if bike %}
+                    {#
+                        Bike coords are inverse of grid 
+                        e.g. Bike: 0,0  = Grid: 0,<width>
+                    #}
+                    {% if i == (bike.x) and j == (bike.y) %}
+                    <span class="bike" data-direction="{{ bike.direction }}">BIKE</span>
+                    {% endif %}
+                {% endif %}
             </td>
         {% endfor %}
     </tr>

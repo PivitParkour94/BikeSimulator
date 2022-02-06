@@ -2,6 +2,11 @@
     --cell-height: 3em;
 }
 
+html,body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 body {
     counter-reset: xAxis yAxis;
     counter-increment: xAxis -1;
@@ -37,6 +42,18 @@ body {
     text-align: center;
     float: left;
     width:50%;
+}
+
+input[type=submit] {
+    background-color: rgb(131, 131, 131);
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;  
+    font-size: 2em;
 }
 
 .command {

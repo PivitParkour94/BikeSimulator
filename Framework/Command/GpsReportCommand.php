@@ -67,14 +67,14 @@ class GpsReportCommand // implements ComamndInterface {
     /**
      * Move the bike on the simulation
      */
-    public function apply(\Nathaniel\BikeSimulator\Bike $bike) {
+    public function apply() {
         if (!$this->validate()) {
             throw new \Exception("Failed to run GPS_REPORT");
         }
         $output = sprintf('(%s, %s), %s', 
-            $bike->getPosition()[0],
-            $bike->getPosition()[1],
-            $bike->getDirection(),
+            $this->_simulation->getBikePosition()[0],
+            $this->_simulation->getBikePosition()[1],
+            $this->_simulation->getBikeDirection(),            
         );
         $this->_simulation->addSimulationMessage('GPS Output: ' . $output);
         return $output;

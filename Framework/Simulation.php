@@ -9,29 +9,107 @@ use Exception;
  */
 class Simulation {
 
-    // const IS_DEBUGGING = false;
-    const IS_DEBUGGING = true;
-
+    /**
+     * @var \Twig\Environment
+     */
     private $_twig;
+
+
+    /**
+     * @var bool
+     */
+    private $_isDebugging;
+
+    /**
+     * @var int
+     */
     private $_width;
+    /**
+     * @var int
+     */
     private $_length;
+
+    /**
+     * @var \Nathaniel\BikeSimulator\Bike
+     */
+    private $_bike;
+
+    /**
+     * array
+     */
+    private $_bikePosition;
+
+    private $_bikeDirection;
+
+    /**
+     * @var bool
+     */
     private $_isBikePlaced;
+    
+    /**
+     * @var array
+     */
     private $_inputs;
+    /**
+     * @var array
+     */
     private $_output;
+
+
 
     /**
      * Simluate the bike on a grid. Default 7 x 7
      */
     public function __construct(
         $width = 7,
-        $length = 7
+        $length = 7,
+        $isDebugging = false
     ) {
-        $this->isRunning = false;
+        $this->_isDebugging = $isDebugging;
         $this->_width = $width;
         $this->_length = $length;
+        $this->_bike = null;
         $this->_isBikePlaced = false;
         $this->_inputs = [];
         $this->_output = [];
+    }
+
+    public function getBike() {
+        return $this->_bike;
+    }
+
+    public function setBike($bike) {
+        $this->_bike = $bike;
+        return $this;
+    }
+
+    public function getBikePosition() {
+        return $this->_bikePosition;
+    }
+
+    public function setBikePosition($bikePosition) {
+        $this->_bikePosition = $bikePosition;
+        return $this;
+    }
+
+    public function getBikeDirection() {
+        return $this->_bikeDirection;
+    }
+
+    public function setBikeDirection($direction) {
+        // limit direction to N,S,E,W
+        switch ($direction) {
+            case Directions::NORTH:
+            case Directions::EAST:
+            case Directions::SOUTH:
+            case Directions::WEST:
+                break;
+            default:
+                // unsuported direction
+                $direction = Directions::NORTH;
+                break;
+        }
+        $this->_bikeDirection = $direction;
     }
 
     /**
@@ -58,7 +136,6 @@ class Simulation {
             $this->addOutput("Please enter your commands to see the GPS Output", 'info');
             return;
         }
-        $bike = new Bike();
         $this->setIsBikePlaced(false);
         foreach ($this->getInputs() as $input) {
             try {
@@ -77,17 +154,15 @@ class Simulation {
                 }
             }
             try {
-                $command->apply($bike);
-                $this->addSimulationMessage("Performed " . htmlentities($input) . PHP_EOL);
+                $command->apply();
+                // $this->addSimulationMessage("Performed " . htmlentities($input) . PHP_EOL);
             } catch (\Exception $e) {
-                if (self::IS_DEBUGGING) {
-                    $this->addSimulationMessage("Failed " . htmlentities($input) . ": " . $e->getMessage() . PHP_EOL);
-                } else {
-                    $this->addSimulationMessage("Failed " . htmlentities($input) . PHP_EOL);
-                }
+                $this->addDebug("Failed " . htmlentities($input) . ": " . $e->getMessage() . PHP_EOL);
+                $this->addError("Something went wrong. Please check your commands are correct");
                 continue;
             }
         }
+        $this->addSimulationMessage("Simulation Complete!");
     }
 
     /**
@@ -113,18 +188,29 @@ class Simulation {
      * Process inputs for the simulation
      */
     private function processInputs($input) {
+        $this->addDebug('Processing Inputs: ' . json_encode($input));
         $comamnds = [];
+        if (!$input) {
+            return [];
+        }
         if (is_string($input)) {
             $commands = explode(PHP_EOL, $input);
         }
         $inputs = [];
         foreach ($commands as $command) {
-            if (ctype_space($command)) {
+            $trimmedCommand = trim($command);
+            if (ctype_space($trimmedCommand)) {
                 continue;
             }
-            $inputs[] = trim($command);
+            if (!$trimmedCommand) {
+                continue;
+            }
+            if (empty($trimmedCommand)) {
+                continue;
+            }
+            $inputs[] = trim($trimmedCommand);
         }
-        $this->_inputs = $commands;
+        $this->_inputs = $inputs;
     }
 
     /**
@@ -153,11 +239,24 @@ class Simulation {
      * Render the grid for the bike simulation
      */
     public function renderBoard() {
-        return $this->getTwigRenderer()->render('board.html', [
+        $templateData = [
             'width' => $this->_width, 
             'length' => $this->_length,
-            'isDebug' => self::IS_DEBUGGING
-        ]);
+            'isDebug' => $this->_isDebugging
+        ];
+        if ($this->getIsBikePlaced()) {
+            $templateData['bike'] = [
+                // have to invert x and y due to table i and j inverted to and y of simulation
+                'x' => ($this->_length - $this->getBikePosition()[1]),
+                // 'y' => ($this->_length -$this->getBikePosition()[1]),
+                'y' => $this->getBikePosition()[0],
+                'direction' => $this->getBikeDirection()
+            ];
+        }
+        return $this->getTwigRenderer()->render(
+            'board.html', 
+            $templateData
+        );
     }
 
     /**
@@ -165,16 +264,6 @@ class Simulation {
      */
     public function getSize() {
         return [$this->_width, $this->_length];
-    }
-
-    /**
-     * Debug the grid output
-     */
-    public function debug() {
-        $this->addDebug('Width: ' . $this->_width);
-        $this->addDebug('Length: ' . $this->_length);
-        $bikePlacedString = ($this->_isBikePlaced) ? 'true' : 'false';
-        $this->addDebug('Is Bike Placed: ' . $bikePlacedString, 'debug');
     }
 
     /* COMMANDS */
@@ -203,6 +292,20 @@ class Simulation {
         return implode(PHP_EOL, $this->_inputs);
     }
 
+
+     /* LOGGING */
+
+     /**
+     * Debug the grid output
+     */
+    public function debug() {
+        $this->addDebug('Width: ' . $this->_width);
+        $this->addDebug('Length: ' . $this->_length);
+        $bikePlacedString = ($this->_isBikePlaced) ? 'true' : 'false';
+        $this->addDebug('Is Bike Placed: ' . $bikePlacedString, 'debug');
+    }
+
+   
     public function addSimulationMessage($message) {
         $this->addOutput($message, 'simulate');
     }
@@ -216,15 +319,19 @@ class Simulation {
     }
 
     public function addOutput($output, $style) {
+        if (is_array($output)) {
+            $output = json_encode($output);
+        }
         $this->_output[$style][] = htmlentities($output);
     }
 
     public function getDebugMessages() {
+        if (!$this->_isDebugging) {
+            return '';
+        }
         $output = '';
+        $output .= '<p>Debugging</p>';
         foreach ($this->_output as $style => $messages) {
-            if (!self::IS_DEBUGGING) {
-                break;
-            }
             foreach ($messages as $message) {
                 $output .= trim(htmlentities($message)) . PHP_EOL;
             }

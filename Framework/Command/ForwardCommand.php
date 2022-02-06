@@ -65,28 +65,76 @@ class ForwardCommand { // implements ComamndInterface {
             return false;
             // throw new \Exception('Too many parameters');
         }
+        $direction = $this->_simulation->getBikeDirection();
+        $position = $this->_simulation->getBikePosition();
 
+        switch ($direction) {
+            case Directions::NORTH:
+                // check if block north is accessible
+                if ($position[1]+1 > $this->_simulation->getSize()[1]) {
+                    return false;
+                }
+                break;
+            case Directions::EAST:
+                // check if block east is accessible
+                if ($position[0]+1 > $this->_simulation->getSize()[0]) {
+                    return false;
+                }
+                break;
+            case Directions::SOUTH:
+                // check if block south is accessible
+                if ($position[1]-1 < 0) {
+                    return false;
+                }
+                break;
+            case Directions::WEST:
+                // check if block west is accessible
+                if ($position[0]-1 < 0) {
+                    return false;
+                }
+                break;
+        }
+                    
         return true;
     }
 
     /**
      * Move the bike on the simulation
      */
-    public function apply(\Nathaniel\BikeSimulator\Bike $bike) {
-        $this->_bike = $bike;
-        $oldPosition = $bike->getPosition();
+    public function apply() {
         try {
-            $this->validate();
-            $this->_simulation->setIsBikePlaced(true);
+            if (!$this->validate()) {
+                return;
+            }
+            $oldPosition = $this->_simulation->getBikePosition();
+            $newPosition = [];
+            switch ($this->_simulation->getBikeDirection()) {
+                case Directions::NORTH:
+                    // check if block north is accessible
+                    $newPosition = [$oldPosition[0], $oldPosition[1]+1];
+                    break;
+                case Directions::EAST:
+                    // check if block east is accessible
+                    $newPosition = [$oldPosition[0]+1, $oldPosition[1]];
+                    break;
+                case Directions::SOUTH:
+                    // check if block south is accessible
+                    $newPosition = [$oldPosition[0], $oldPosition[1]-1];
+                    break;
+                case Directions::WEST:
+                    // check if block west is accessible
+                    $newPosition = [$oldPosition[0]-1, $oldPosition[1]];
+                    break;
+            }
             $this->_simulation->addDebug(sprintf(
-                "Moving bike from (%s,%s) to (%s,%s) facing %s",
+                "Old Position: (%s,%s) - New Position: (%s, %s)",
                 $oldPosition[0],
                 $oldPosition[1],
-                $bike->getPosition()[0],
-                $bike->getPosition()[1],
-                $bike->getDirection()
+                $newPosition[0],
+                $newPosition[1],
                 )
             );
+            $this->_simulation->setBikePosition($newPosition);
         } catch (\Exception $e) {
             // handle failed command
         }
