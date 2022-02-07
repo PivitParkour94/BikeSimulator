@@ -1,9 +1,16 @@
 
-.board {
+.middle {
     text-align: center;
-    margin: 1em;
+    // margin: 1em;
     background-color: rgb(239, 255, 196);
     padding-bottom: 2em;
+    grid-area: middle;
+}
+
+.bike {
+    // text-align:center;
+    position: relative;
+    top: 50%;
 }
 
 /* GRID */
@@ -23,6 +30,7 @@ td {
     width: var(--cell-height) !important;
     border: black 1px solid;
     padding: 0px;
+    position: relative;
 }
 
 td.x-axis::before {

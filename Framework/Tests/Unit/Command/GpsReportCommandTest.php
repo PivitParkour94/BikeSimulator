@@ -1,6 +1,6 @@
 <?php
 
-namespace Nathaniel\BikeSimulator\Tests\Command;
+namespace Nathaniel\BikeSimulator\Tests\Unit\Command;
 
 use Nathaniel\BikeSimulator\Bike;
 

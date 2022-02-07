@@ -1,6 +1,6 @@
 <?php
 
-namespace Nathaniel\BikeSimulator\Command;
+namespace Nathaniel\BikeSimulator;
 
 /**
  * TODO: Issue reading interface
@@ -10,7 +10,12 @@ interface ComamndInterface {
     /**
      * Get description for the command
      */
-    public function getDescription();
+    static public function getDescription();
+
+    /**
+     * Get Usage for the command
+     */
+    static public function getUsage();
 
     /**
      * Get parameters for the function

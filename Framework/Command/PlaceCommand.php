@@ -1,13 +1,14 @@
 <?php
 
 namespace Nathaniel\BikeSimulator\Command;
+
 use Nathaniel\BikeSimulator\Directions;
 
 /**
  * Command used to place the bike somewhere on the grid
  */
-class PlaceCommand //implements \Nathaniel\BikeSimulator\Command\ComamndInterface {
-{
+class PlaceCommand implements \Nathaniel\BikeSimulator\ComamndInterface {
+// {
     /**
      * @var \Nathaniel\BikeSimulator\Simulation
      */
@@ -30,7 +31,14 @@ class PlaceCommand //implements \Nathaniel\BikeSimulator\Command\ComamndInterfac
      * Get description for the command
      */
     static public function getDescription() {
-        return 'PLACE <X>, <Y>, <Facing-Direction> - to place your bike somewhere on the grid';
+        return 'To place your bike somewhere on the grid';
+    }
+
+    /**
+     * Get Usage for the command
+     */
+    static public function getUsage() {
+        return 'PLACE <X>, <Y>, <Facing-Direction>';
     }
 
     /**

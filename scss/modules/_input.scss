@@ -1,19 +1,26 @@
 .input {
     text-align: center;
-    float: left;
-    width:50%;
+    // float: left;
+    // width:50%;
+    grid-area: input;
+}
+
+form {
+    display: inline-block;
+    width: fit-content;
 }
 
 input[type=submit] {
-    background-color: rgb(131, 131, 131);
-    border: none;
-    color: white;
-    padding: 16px 32px;
+    background-color: /*rgb(131, 131, 131);*/ white;
+    border:rgb(0, 0, 0) solid 1px;
+    color: rgb(0, 0, 0);
+    border-radius: 2px;  
+    padding: 0 2em;
     text-decoration: none;
-    margin: 4px 2px;
+    // margin: 4px 2px;
     cursor: pointer;
-    border-radius: 10px;  
     font-size: 2em;
+    width: auto;
 }
 
 .command {

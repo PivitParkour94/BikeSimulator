@@ -4,6 +4,7 @@ namespace Nathaniel\BikeSimulator;
 
 use Exception;
 use Nathaniel\BikeSimulator\Command\PlaceCommand;
+use Nathaniel\BikeSimulator\Command\TurnLeftCommand;
 
 /**
  * Simulate a bike on a grid
@@ -269,8 +270,10 @@ class Simulation {
 
     /* COMMANDS */
 
+    /**
+     * Get Comamnds help
+     */
     public function getCommandHelp() {
-        // return "<pre>Generate command options here</pre>";
         return $this->getTwigRenderer()->render('command-help.html', [
             'commands' => $this->getAvailableComamnds(), 
             'isDebug' => false
@@ -282,22 +285,38 @@ class Simulation {
      */
     public function getAvailableComamnds() {
         $commands = [];
-        $this->addDebug('Available commands: ' . json_encode(get_declared_classes()));
         // $comamnds[] = [
-        //     'name' => 'PLACE',
-        //     'description' => 'TESTING',
+        //     'name' => TurnLeftCommand::NAME,
+        //     'usage' => TurnLeftCommand::getUsage(),
+        //     'description' => TurnLeftCommand::getDescription()
         // ];
-        // return $comamnds;
+
+        // return $commands;
+        $this->addDebug('Determining Available commands...');
         foreach (get_declared_classes() as $className) {
-            $commandNamespace = __NAMESPACE__ . '\\Command\\';
-            if (!preg_match('/' . $commandNamespace . '*/', $className)) {
+            // $this->addDebug('class implements: ' . json_encode(class_implements($className)));
+            if (!in_array('Nathaniel\\BikeSimulator\\ComamndInterface', class_implements($className))) {
                 continue;
             }
             $comamnds[] = [
-                'name' => '{${className::NAME}}',
-                'description' => '{${className::getDescription()}}',
+                'name' => constant("$className::NAME"),
+                'usage' => call_user_func($className .'::getUsage'),
+                'description' => call_user_func($className .'::getDescription')
             ];
+            // $commandNamespace = __NAMESPACE__ . '\\Command\\';
+            // if (strpos($className, $commandNamespace) !== false) {
+            //     $this->addDebug('Available command: ' . constant("$className::NAME"));
+            //     $comamnds[] = [
+            //         'name' => constant("$className::NAME"),
+            //         'usage' => call_user_func($className .'::getUsage'),
+            //         'description' => call_user_func($className .'::getDescription')
+            //     ];
+            // }
 
+        }
+        $this->addDebug('Available commands: ' . json_encode($commands));
+        if (!$comamnds) {
+            return [];
         }
         return $comamnds;
     }

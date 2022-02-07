@@ -24,14 +24,13 @@ $simulation->debug();
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nathaniel - Bike Simulator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
     <div class="application">
         <div class="instructions">
-            <p class="title">Welcome to the bike simulator 3000.</p>
+            <h2 class="title">Welcome to the bike simulator 3000.</h2>
             <span>In order to successfully simulate the excitement and fun of a bike, please input your commands starting with
                 <pre class="command"><?php echo htmlentities($simulation->getInitialCommand()); ?></pre>
             </span>
@@ -40,16 +39,16 @@ $simulation->debug();
                  or click which position you would like to start from on the grid below.</span>
                  */ ?>
         </div>
-        <div class="board">
+        <div class="middle">
             <div class="input">
                 <!-- <h3>Inputs</h3> -->
                 <form action="/">
                     <input type="hidden" name="security" value="ARBITRARY" />
                     <label class="title" for="commands">Enter your commands here</label><br>
                     <textarea name="commands" autofocus="true" rows="15"><?php echo $simulation->outputCommand(); ?></textarea>
-                    <span class="help_commands"><?php echo $simulation->getCommandHelp(); ?></span>
                     <input type="submit" value="RUN"></input>
                 </form>
+                <span class="help-commands"><?php echo $simulation->getCommandHelp(); ?></span>
                 <pre class="output-debug">
                     <?php echo $simulation->getDebugMessages(); ?>
                 </pre>

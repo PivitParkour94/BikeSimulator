@@ -1,5 +1,7 @@
+@use 'modules/reset';
 @use 'modules/application';
 @use 'modules/board';
+@use 'modules/commands';
 @use 'modules/input';
 @use 'modules/output';
 

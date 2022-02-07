@@ -7,7 +7,7 @@ use Nathaniel\BikeSimulator\Directions;
 /**
  * Command used to turn bike to the left
  */
-class TurnLeftCommand { // implements ComamndInterface {
+class TurnLeftCommand implements \Nathaniel\BikeSimulator\ComamndInterface {
 
     /**
      * @var \Nathaniel\BikeSimulator\Simulation
@@ -35,9 +35,17 @@ class TurnLeftCommand { // implements ComamndInterface {
     /**
      * Get description for the command
      */
-    public function getDescription() {
-        return 'TURN_LEFT - Rotate the bike anticlockwise without changing its position on the grid.';
+    static public function getDescription() {
+        return 'Rotate the bike anticlockwise without changing its position on the grid.';
     }
+
+    /**
+     * Get Usage for the command
+     */
+    static public function getUsage() {
+        return 'TURN_LEFT';
+    }
+
 
     /**
      * Get parameters for the function

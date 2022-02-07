@@ -1,6 +1,6 @@
 <?php
 
-namespace Nathaniel\BikeSimulator\Tests\Command;
+namespace Nathaniel\BikeSimulator\Tests\Unit\Command;
 
 /**
  * Unit test for moving the bike forward command
@@ -18,7 +18,6 @@ class ForwardCommandTest extends \PHPUnit\Framework\TestCase {
      */
     public function testBasicValidation() {
         $command = new \Nathaniel\BikeSimulator\Command\ForwardCommand($this->simulation, 'FORWARD');
-        $command->_bike = new \Nathaniel\BikeSimulator\Bike();
         $this->assertEquals(true, $command->validate(), "Basic Validation failed");
     }
 

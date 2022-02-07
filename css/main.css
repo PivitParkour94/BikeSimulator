@@ -1,20 +1,78 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 :root {
   --cell-height: 3em;
 }
 
 html, body {
-  max-width: 100%;
   overflow-x: hidden;
 }
 
 body {
   counter-reset: xAxis yAxis;
   counter-increment: xAxis -1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .application {
-  height: 100vh;
-  width: 100vw;
+  display: grid;
+  gap: 20px;
+  grid-template: "header" 8em "middle" auto "output" 3em;
 }
 
 .title {
@@ -28,14 +86,26 @@ body {
 
 .instructions {
   text-align: center;
-  padding: 1em;
+  grid-area: header;
+}
+.instructions > span {
+  width: 100%;
+  display: inline-block;
+  margin: 0px;
+  font-size: 0.8em;
+  word-wrap: break-word;
 }
 
-.board {
+.middle {
   text-align: center;
-  margin: 1em;
   background-color: #efffc4;
   padding-bottom: 2em;
+  grid-area: middle;
+}
+
+.bike {
+  position: relative;
+  top: 50%;
 }
 
 /* GRID */
@@ -55,6 +125,7 @@ td {
   width: var(--cell-height) !important;
   border: black 1px solid;
   padding: 0px;
+  position: relative;
 }
 
 td.x-axis::before {
@@ -72,22 +143,49 @@ td.y-axis::before {
   /* bottom: calc(-1 * 80%); */
 }
 
+.help-commands {
+  margin: 1em;
+}
+.help-commands > ul {
+  list-style: none;
+}
+.help-commands > ul > li {
+  padding: 20px;
+  border: 1px solid red;
+  float: left;
+}
+
+.command-usage {
+  background-color: #8a8a8a;
+  border: none;
+  color: white;
+  padding: 0.5em;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 1.5em;
+}
+
 .input {
   text-align: center;
-  float: left;
-  width: 50%;
+  grid-area: input;
+}
+
+form {
+  display: inline-block;
+  width: fit-content;
 }
 
 input[type=submit] {
-  background-color: #838383;
-  border: none;
-  color: white;
-  padding: 16px 32px;
+  background-color: white;
+  border: black solid 1px;
+  color: black;
+  border-radius: 2px;
+  padding: 0 2em;
   text-decoration: none;
-  margin: 4px 2px;
   cursor: pointer;
-  border-radius: 10px;
   font-size: 2em;
+  width: auto;
 }
 
 .command {
@@ -121,6 +219,7 @@ textarea {
   font-family: "Courier New", Courier, monospace;
   font-size: 2em;
   font-weight: 400;
+  grid-area: output;
 }
 
 .output-log {

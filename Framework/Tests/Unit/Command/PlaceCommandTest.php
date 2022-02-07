@@ -1,6 +1,6 @@
 <?php
 
-namespace Nathaniel\BikeSimulator\Tests\Command;
+namespace Nathaniel\BikeSimulator\Tests\Unit\Command;
 
 /**
  * Unit test for the place bike command

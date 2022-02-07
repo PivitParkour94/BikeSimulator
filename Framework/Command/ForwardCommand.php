@@ -7,7 +7,7 @@ use Nathaniel\BikeSimulator\Directions;
 /**
  * Command used to place the bike somewhere on the grid
  */
-class ForwardCommand { // implements ComamndInterface {
+class ForwardCommand implements \Nathaniel\BikeSimulator\ComamndInterface {
 
     /**
      * @var \Nathaniel\BikeSimulator\Simulation
@@ -35,8 +35,15 @@ class ForwardCommand { // implements ComamndInterface {
     /**
      * Get description for the command
      */
-    public function getDescription() {
-        return 'FORWARD - Move the bike one block in the direction it is facing';
+    static public function getDescription() {
+        return 'Move the bike one block in the direction it is facing';
+    }
+
+    /**
+     * Get Usage for the command
+     */
+    static public function getUsage() {
+        return 'FORWARD';
     }
 
     /**

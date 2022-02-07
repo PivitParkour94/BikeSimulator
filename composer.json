@@ -1,6 +1,6 @@
 {
     "name": "nathaniel/bikesimulator",
-    "description": "application simulating a bike driving on a grid",
+    "description": "Application simulating a bike riding on a grid",
     "type": "project",
     "license": "free",
     "authors": [

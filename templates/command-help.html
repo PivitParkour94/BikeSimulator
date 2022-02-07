@@ -6,6 +6,13 @@
     {% if isDebug %}
     <pre>Command: {{ command | json_encode }}</pre>
     {% endif %}
-    <li class="command-help">{{command.name}} - {{command.description}}</li>
+    <li class="command-help command-{{command.name|lower}}">
+        <span class="command-usage">
+            {{command.usage}}
+        </span>
+        <span class="command-description">
+            {{command.description}}
+        </span>
+    </li>
     {% endfor %}
 </ul>

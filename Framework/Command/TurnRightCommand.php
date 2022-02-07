@@ -32,11 +32,19 @@ class TurnRightCommand { // implements ComamndInterface {
         $this->_params = [];
     }
 
+
     /**
      * Get description for the command
      */
-    public function getDescription() {
-        return 'TURN_RIGHT - Rotate the bike clockwise without changing its position on the grid.';
+    static public function getDescription() {
+        return 'Rotate the bike clockwise without changing its position on the grid.';
+    }
+
+    /**
+     * Get Usage for the command
+     */
+    static public function getUsage() {
+        return 'TURN_RIGHT';
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Nathaniel\BikeSimulator;
+namespace Nathaniel\BikeSimulator\Tests\Unit;
 
 
 /**

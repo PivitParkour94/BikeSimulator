@@ -7,8 +7,8 @@ use Nathaniel\BikeSimulator\Directions;
 /**
  * Command used to report the bike's GPS Coordinates
  */
-class GpsReportCommand // implements ComamndInterface {
-{
+class GpsReportCommand implements \Nathaniel\BikeSimulator\ComamndInterface {
+
     /**
      * @var \Nathaniel\BikeSimulator\Simulation
      */
@@ -27,12 +27,19 @@ class GpsReportCommand // implements ComamndInterface {
         $this->_params = [];
     }
 
+
     /**
      * Get description for the command
      */
-    public function getDescription() {
-        return 'GPS_REPORT - will output the bike\'s position and facing in the following format:
-            (<X>, <Y>), <Facing-direction>';
+    static public function getDescription() {
+        return 'will output the bike\'s position and facing in the following format: (<X>, <Y>), <Facing-direction>';
+    }
+
+    /**
+     * Get Usage for the command
+     */
+    static public function getUsage() {
+        return 'GPS_REPORT';
     }
 
     /**

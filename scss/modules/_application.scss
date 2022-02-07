@@ -3,18 +3,32 @@
 }
 
 html,body {
-    max-width: 100%;
+    // max-width: 100%;
     overflow-x: hidden;
 }
 
 body {
     counter-reset: xAxis yAxis;
     counter-increment: xAxis -1;
+    // display: inline-block;
+    // margin: auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center
 }
 
 .application {
-    height: 100vh;
-    width: 100vw;
+    display: grid;
+    // grid-template-rows: [first-row] 1fr [second-row] 1fr;
+    // grid-template-columns: [first-col] 1fr 
+    // [second-col] 1fr 
+    // [third-col] auto;
+    gap: 20px;
+    grid-template:
+    "header" 8em
+    "middle" auto
+    "output" 3em;
 }
 
 .title {
@@ -28,6 +42,19 @@ body {
 
 .instructions {
     text-align: center;
-    padding: 1em;
+    grid-area: header;
+    // grid-row-start: 1;
+    // grid-row-end: 3;
+
+    &>span {
+        width: 100%; 
+        display: inline-block; 
+        margin: 0px; 
+        // padding: 1em;
+        font-size: 0.8em;
+        // float: left;
+        word-wrap: break-word;
+    }
+
 }
 
