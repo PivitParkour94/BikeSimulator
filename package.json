@@ -1,0 +1,25 @@
+{
+  "name": "bgl_bikesim",
+  "version": "1.0.0",
+  "description": "Bike Simulator to demonstrate code skills",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PivitParkour94/BikeSimulator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PivitParkour94/BikeSimulator/issues"
+  },
+  "homepage": "https://github.com/PivitParkour94/BikeSimulator#readme",
+  "dependencies": {
+    "sass": "^1.49.7"
+  }
+}

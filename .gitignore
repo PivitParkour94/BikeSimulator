@@ -1,1 +1,4 @@
 /vendor/
+/css/*.css.map
+/node_modules/
+/.vscode/

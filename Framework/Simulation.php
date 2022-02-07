@@ -3,6 +3,7 @@
 namespace Nathaniel\BikeSimulator;
 
 use Exception;
+use Nathaniel\BikeSimulator\Command\PlaceCommand;
 
 /**
  * Simulate a bike on a grid
@@ -269,12 +270,36 @@ class Simulation {
     /* COMMANDS */
 
     public function getCommandHelp() {
-        return "<pre>Generate command options here</pre>";
-        // return $this->getTwigRenderer()->render('command-help.html', [
-        //     'width' => $this->_width, 
-        //     'length' => $this->_length,
-        //     'isDebug' => true
-        // ]);
+        // return "<pre>Generate command options here</pre>";
+        return $this->getTwigRenderer()->render('command-help.html', [
+            'commands' => $this->getAvailableComamnds(), 
+            'isDebug' => false
+        ]);
+    }
+
+    /**
+     * Get available commands
+     */
+    public function getAvailableComamnds() {
+        $commands = [];
+        $this->addDebug('Available commands: ' . json_encode(get_declared_classes()));
+        // $comamnds[] = [
+        //     'name' => 'PLACE',
+        //     'description' => 'TESTING',
+        // ];
+        // return $comamnds;
+        foreach (get_declared_classes() as $className) {
+            $commandNamespace = __NAMESPACE__ . '\\Command\\';
+            if (!preg_match('/' . $commandNamespace . '*/', $className)) {
+                continue;
+            }
+            $comamnds[] = [
+                'name' => '{${className::NAME}}',
+                'description' => '{${className::getDescription()}}',
+            ];
+
+        }
+        return $comamnds;
     }
 
     /**

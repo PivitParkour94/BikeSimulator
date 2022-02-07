@@ -1,5 +1,11 @@
 <ul>
+    {% if isDebug %}
+    <pre>Commands: {{ commands | json_encode }}</pre>
+    {% endif %}
     {% for command in commands %}
+    {% if isDebug %}
+    <pre>Command: {{ command | json_encode }}</pre>
+    {% endif %}
     <li class="command-help">{{command.name}} - {{command.description}}</li>
     {% endfor %}
 </ul>

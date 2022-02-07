@@ -29,7 +29,7 @@ class PlaceCommand //implements \Nathaniel\BikeSimulator\Command\ComamndInterfac
     /**
      * Get description for the command
      */
-    public function getDescription() {
+    static public function getDescription() {
         return 'PLACE <X>, <Y>, <Facing-Direction> - to place your bike somewhere on the grid';
     }
 

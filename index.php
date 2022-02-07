@@ -10,7 +10,7 @@ ini_set('display_errors', 1);
 ob_clean();
 
 $isDebugging = false;
-// $isDebugging = true;
+$isDebugging = true;
 
 $simulation = new \Nathaniel\BikeSimulator\Simulation(7,7, $isDebugging);
 

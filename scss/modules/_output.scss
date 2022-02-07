@@ -1,0 +1,28 @@
+.output-box {
+    text-align: center;
+    border-top: grey 1px dashed;
+    padding: 3em;
+    width: 100%;
+}
+
+.output {
+    color:rgb(151, 151, 151);
+    font-family:'Courier New', Courier, monospace;
+    font-size: 2em;
+    font-weight: 400;
+}
+
+.output-log {
+    float: left;
+}
+
+.output-debug {
+    float: left;
+    text-align: left;
+    /* font-size: 0.5em; */
+}
+
+.output-log-error {
+    float: left;
+    color: rgb(255, 52, 52);
+}

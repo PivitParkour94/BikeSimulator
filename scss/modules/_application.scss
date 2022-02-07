@@ -1,0 +1,33 @@
+:root {
+    --cell-height: 3em;
+}
+
+html,body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    counter-reset: xAxis yAxis;
+    counter-increment: xAxis -1;
+}
+
+.application {
+    height: 100vh;
+    width: 100vw;
+}
+
+.title {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    text-align: center;
+    padding-top: 1em;
+    font-size: larger;
+    font-weight: bold;
+    font-size: x-large;
+}
+
+.instructions {
+    text-align: center;
+    padding: 1em;
+}
+

@@ -1,0 +1,43 @@
+
+.board {
+    text-align: center;
+    margin: 1em;
+    background-color: rgb(239, 255, 196);
+    padding-bottom: 2em;
+}
+
+/* GRID */
+table {
+    margin: auto;
+    padding: 0px;
+    border-collapse: collapse;
+    /* table-layout:fixed; */
+}
+
+td {
+    text-align: center;
+    padding: 0; 
+    margin: 0;
+        /* display: inline-block; */
+    height: var(--cell-height) !important;
+    width: var(--cell-height) !important;
+    border: black 1px solid;
+    padding: 0px;
+}
+
+td.x-axis::before {
+    counter-increment: xAxis;
+    content: counter(xAxis);
+    position: relative;
+    left: calc(1 * 35%);
+    bottom: calc(-1 * 80%);
+}
+
+
+td.y-axis::before {
+    content: attr(data-y-axis);
+    position: relative;
+    left: calc(-1 * 75%);
+    /* bottom: calc(-1 * 80%); */
+}
+
