@@ -16,6 +16,6 @@ vendor/bin/phpunit .
 
 ### TODO
 - Style for desktop
-- Build lost of available commands
+- Build list of available commands
 - Fix grid numbering spacing
 - Unit Testing for Turn Left and Turn Right Command
