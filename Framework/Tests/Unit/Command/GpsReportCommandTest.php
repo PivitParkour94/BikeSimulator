@@ -26,10 +26,12 @@ class GpsReportCommandTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testApply() {
-        $bike = new Bike(0, 0, 'NORTH');
-        $this->assertEquals('(0, 0), NORTH', $this->command->apply($bike), "GPS Reporting failed");
-        $bike = new Bike(1, 3, 'WEST');
-        $this->assertEquals('(1, 3), WEST', $this->command->apply($bike), "GPS Reporting failed");
+        $this->simulation->setBikePosition([0, 0]);
+        $this->simulation->setBikeDirection('NORTH');
+        $this->assertEquals('(0,0), NORTH', $this->command->apply(), "GPS Reporting failed");
+        $this->simulation->setBikePosition([1, 3]);
+        $this->simulation->setBikeDirection('WEST');
+        $this->assertEquals('(1,3), WEST', $this->command->apply(), "GPS Reporting failed");
     }
 
 }
