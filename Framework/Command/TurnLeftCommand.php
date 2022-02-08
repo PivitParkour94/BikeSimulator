@@ -7,7 +7,8 @@ use Nathaniel\BikeSimulator\Directions;
 /**
  * Command used to turn bike to the left
  */
-class TurnLeftCommand implements \Nathaniel\BikeSimulator\ComamndInterface {
+class TurnLeftCommand // implements \Nathaniel\BikeSimulator\ComamndInterface 
+{
 
     /**
      * @var \Nathaniel\BikeSimulator\Simulation

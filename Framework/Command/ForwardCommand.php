@@ -7,7 +7,8 @@ use Nathaniel\BikeSimulator\Directions;
 /**
  * Command used to place the bike somewhere on the grid
  */
-class ForwardCommand implements \Nathaniel\BikeSimulator\ComamndInterface {
+class ForwardCommand // implements \Nathaniel\BikeSimulator\ComamndInterface 
+{
 
     /**
      * @var \Nathaniel\BikeSimulator\Simulation

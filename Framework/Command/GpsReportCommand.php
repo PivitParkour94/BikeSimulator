@@ -7,7 +7,8 @@ use Nathaniel\BikeSimulator\Directions;
 /**
  * Command used to report the bike's GPS Coordinates
  */
-class GpsReportCommand implements \Nathaniel\BikeSimulator\ComamndInterface {
+class GpsReportCommand // implements \Nathaniel\BikeSimulator\ComamndInterface 
+{
 
     /**
      * @var \Nathaniel\BikeSimulator\Simulation

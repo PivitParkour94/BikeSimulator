@@ -135,7 +135,7 @@ class Simulation {
     public function run($input) {
         $this->processInputs($input);
         if (empty($this->getInputs())) {
-            $this->addOutput("Please enter your commands to see the GPS Output", 'info');
+            $this->addOutput("Please enter your help to see the GPS Output", 'info');
             return;
         }
         $this->setIsBikePlaced(false);
@@ -145,12 +145,12 @@ class Simulation {
             } catch (\Exception $e) {
                 // Failed to load command
                 $this->addDebug('Input: ' . $input . ' - ' . $e->getMessage());
-                $this->addError("Something went wrong. Please check your commands are correct");
+                $this->addError("Something went wrong. Please check your help are correct");
                 continue;
             }
             if (!$this->_isBikePlaced) {
                 if (!$command instanceof \Nathaniel\BikeSimulator\Command\PlaceCommand) {
-                    // The application should discard all commands until a valid PLACE command has been executed.
+                    // The application should discard all help until a valid PLACE command has been executed.
                     $this->addError("Please ensure you have called the PLACE command");
                     continue;
                 }
@@ -160,7 +160,7 @@ class Simulation {
                 // $this->addSimulationMessage("Performed " . htmlentities($input) . PHP_EOL);
             } catch (\Exception $e) {
                 $this->addDebug("Failed " . htmlentities($input) . ": " . $e->getMessage() . PHP_EOL);
-                $this->addError("Something went wrong. Please check your commands are correct");
+                $this->addError("Something went wrong. Please check your help are correct");
                 continue;
             }
         }
@@ -196,10 +196,10 @@ class Simulation {
             return [];
         }
         if (is_string($input)) {
-            $commands = explode(PHP_EOL, $input);
+            $help = explode(PHP_EOL, $input);
         }
         $inputs = [];
-        foreach ($commands as $command) {
+        foreach ($help as $command) {
             $trimmedCommand = trim($command);
             if (ctype_space($trimmedCommand)) {
                 continue;
@@ -275,55 +275,46 @@ class Simulation {
      */
     public function getCommandHelp() {
         return $this->getTwigRenderer()->render('command-help.html', [
-            'commands' => $this->getAvailableComamnds(), 
+            'help' => $this->getAvailableComamnds(), 
             'isDebug' => false
         ]);
     }
 
     /**
-     * Get available commands
+     * Get available help
      */
     public function getAvailableComamnds() {
-        $commands = [];
+        $help = [];
         // $comamnds[] = [
         //     'name' => TurnLeftCommand::NAME,
         //     'usage' => TurnLeftCommand::getUsage(),
         //     'description' => TurnLeftCommand::getDescription()
         // ];
 
-        // return $commands;
-        $this->addDebug('Determining Available commands...');
+        // return $help;
+        $this->addDebug('Determining Available help...');
         foreach (get_declared_classes() as $className) {
-            // $this->addDebug('class implements: ' . json_encode(class_implements($className)));
-            if (!in_array('Nathaniel\\BikeSimulator\\ComamndInterface', class_implements($className))) {
-                continue;
+            $commandNamespace = __NAMESPACE__ . '\\Command\\';
+            if (strpos($className, $commandNamespace) !== false) {
+                $this->addDebug('Available command: ' . constant("$className::NAME"));
+                $comamnds[] = [
+                    'name' => constant("$className::NAME"),
+                    'usage' => call_user_func($className .'::getUsage'),
+                    'description' => call_user_func($className .'::getDescription')
+                ];
             }
-            $comamnds[] = [
-                'name' => constant("$className::NAME"),
-                'usage' => call_user_func($className .'::getUsage'),
-                'description' => call_user_func($className .'::getDescription')
-            ];
-            // $commandNamespace = __NAMESPACE__ . '\\Command\\';
-            // if (strpos($className, $commandNamespace) !== false) {
-            //     $this->addDebug('Available command: ' . constant("$className::NAME"));
-            //     $comamnds[] = [
-            //         'name' => constant("$className::NAME"),
-            //         'usage' => call_user_func($className .'::getUsage'),
-            //         'description' => call_user_func($className .'::getDescription')
-            //     ];
-            // }
 
         }
-        $this->addDebug('Available commands: ' . json_encode($commands));
-        if (!$comamnds) {
+        $this->addDebug('Available help: ' . json_encode($help));
+        if (!$help) {
             return [];
         }
-        return $comamnds;
+        return $help;
     }
 
     /**
      * Get initial command
-     * TODO: load list of commands in a specific order
+     * TODO: load list of help in a specific order
      */
     public function getInitialCommand() {
         return "PLACE 0, 0, " . Directions::NORTH . PHP_EOL;
